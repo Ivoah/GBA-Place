@@ -17,7 +17,7 @@ int main(void) {
     while (true) {
         u8 keys = ~REG_KEYINPUT;
         int d = 1;
-        if (keys != 0xff) update = true;
+        if (keys) update = true;
         if (keys & ((1 << 0) | (1 << 1))) d = 3;
         if (keys & (1 << 6) && cy > 0) cy -= d;
         if (keys & (1 << 7) && cy < 1000 - 160) cy += d;
@@ -30,5 +30,7 @@ int main(void) {
             }
             update = false;
         }
+
+        VBlankIntrWait();
     }
 }
