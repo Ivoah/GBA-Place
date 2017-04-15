@@ -3,9 +3,6 @@
 
 #include "place.h"
 
-inline int min (int a, int b) { return a < b ? a : b; }
-inline int max (int a, int b) { return a > b ? a : b; }
-
 #define constrain(amt,low,high) ((amt)<(low)?(low):((amt)>(high)?(high):(amt)))
 
 int cx = 0;
