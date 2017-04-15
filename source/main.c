@@ -15,7 +15,7 @@ int main(void) {
     REG_DISPCNT = MODE_3 | BG2_ENABLE;
 
     for (int y = 0; y < 160; y++) {
-        dmaCopy(&place[y*1000], (u16*)(VRAM + y*240*2), 240*2);
+        dmaCopy(&place[y*place_width], (u16*)(VRAM + y*240*2), 240*2);
     }
 
     while (true) {
@@ -29,11 +29,11 @@ int main(void) {
             if (keys & (1 << 5)) cx -= d;
             if (keys & (1 << 4)) cx += d;
 
-            cx = constrain(cx, 0, 1000 - 240);
-            cy = constrain(cy, 0, 1000 - 160);
+            cx = constrain(cx, 0, place_width - 240);
+            cy = constrain(cy, 0, place_height - 160);
 
             for (int y = 0; y < 160; y++) {
-                dmaCopy(&place[(y + cy)*1000 + cx], (u16*)(VRAM + y*240*2), 240*2);
+                dmaCopy(&place[(y + cy)*place_width + cx], (u16*)(VRAM + y*240*2), 240*2);
             }
         }
 
