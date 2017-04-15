@@ -10,7 +10,6 @@ inline int max (int a, int b) { return a > b ? a : b; }
 
 int cx = 0;
 int cy = 0;
-bool update = true;
 
 int main(void) {
     irqInit();
@@ -18,24 +17,27 @@ int main(void) {
 
     REG_DISPCNT = MODE_3 | BG2_ENABLE;
 
+    for (int y = 0; y < 160; y++) {
+        dmaCopy(&place[y*1000], (u16*)(VRAM + y*240*2), 240*2);
+    }
+
     while (true) {
         u8 keys = ~REG_KEYINPUT;
-        int d = 1;
-        if (keys) update = true;
-        if (keys & ((1 << 0) | (1 << 1))) d = 3;
-        if (keys & (1 << 6)) cy -= d;
-        if (keys & (1 << 7)) cy += d;
-        if (keys & (1 << 5)) cx -= d;
-        if (keys & (1 << 4)) cx += d;
 
-        cx = constrain(cx, 0, 1000 - 240);
-        cy = constrain(cy, 0, 1000 - 160);
+        if (keys) {
+            int d = 1;
+            if (keys & ((1 << 0) | (1 << 1))) d = 3;
+            if (keys & (1 << 6)) cy -= d;
+            if (keys & (1 << 7)) cy += d;
+            if (keys & (1 << 5)) cx -= d;
+            if (keys & (1 << 4)) cx += d;
 
-        if (update) {
+            cx = constrain(cx, 0, 1000 - 240);
+            cy = constrain(cy, 0, 1000 - 160);
+
             for (int y = 0; y < 160; y++) {
                 dmaCopy(&place[(y + cy)*1000 + cx], (u16*)(VRAM + y*240*2), 240*2);
             }
-            update = false;
         }
 
         VBlankIntrWait();
