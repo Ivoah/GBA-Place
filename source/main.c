@@ -52,13 +52,10 @@ int main(void) {
 
             for (int y = 0; y < 160; y++) {
                 dmaCopy(&place[(y + cy)*place_width + cx], (u16*)(VRAM + y*240*2), 240*2);
-                //memcpy((u16*)(VRAM + y*240*2), &place[(y + cy)*place_width + cx], 240*2);
             }
             VBlankIntrWait();
 
             BgAffineSet(&zoom, (BGAffineDest*)&REG_BG2PA, 1);
         }
-
-        //VBlankIntrWait();
     }
 }
