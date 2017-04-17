@@ -44,9 +44,11 @@ int main(void) {
             if (keys & (1 << 4)) cx += d;
             if (keys & (1 << 8)) {zoom.sX -= 4; zoom.sY -= 4;}
             if (keys & (1 << 9)) {zoom.sX += 4; zoom.sY += 4;}
-            
+
             cx = constrain(cx, 0, place_width - 240);
             cy = constrain(cy, 0, place_height - 160);
+            zoom.sX = constrain(zoom.sX, 0, 0x0100);
+            zoom.sY = constrain(zoom.sY, 0, 0x0100);
 
             for (int y = 0; y < 160; y++) {
                 dmaCopy(&place[(y + cy)*place_width + cx], (u16*)(VRAM + y*240*2), 240*2);
