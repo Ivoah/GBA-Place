@@ -44,9 +44,7 @@ int main(void) {
             if (keys & (1 << 4)) cx += d;
             if (keys & (1 << 8)) {zoom.sX -= 4; zoom.sY -= 4;}
             if (keys & (1 << 9)) {zoom.sX += 4; zoom.sY += 4;}
-            //if (keys & (1 << 8)) zoom.theta += 128;
-            //if (keys & (1 << 9)) zoom.theta -= 128;
-
+            
             cx = constrain(cx, 0, place_width - 240);
             cy = constrain(cy, 0, place_height - 160);
 
@@ -54,10 +52,11 @@ int main(void) {
                 dmaCopy(&place[(y + cy)*place_width + cx], (u16*)(VRAM + y*240*2), 240*2);
                 //memcpy((u16*)(VRAM + y*240*2), &place[(y + cy)*place_width + cx], 240*2);
             }
+            VBlankIntrWait();
 
             BgAffineSet(&zoom, (BGAffineDest*)&REG_BG2PA, 1);
         }
 
-        VBlankIntrWait();
+        //VBlankIntrWait();
     }
 }
