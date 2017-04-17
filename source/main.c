@@ -10,11 +10,11 @@ int cy = 0;
 
 BGAffineSource zoom = {
     //Center Of Rotation In Original Image (Last 8-Bits Fractional)
-    .x = 0x00007800, // X
-    .y = 0x00005000, // Y
+    .x = 0x00000000, // X
+    .y = 0x00000000, // Y
     // Center Of Rotation On Screen
-    .tX = 0x0078, // X
-    .tY = 0x0050, // Y
+    .tX = 0x0000, // X
+    .tY = 0x0000, // Y
     // Scaling Ratios (Last 8-Bits Fractional)
     .sX = 0x0100, // X
     .sY = 0x0100, // Y
@@ -49,6 +49,11 @@ int main(void) {
             cy = constrain(cy, 0, place_height - 160);
             zoom.sX = constrain(zoom.sX, 0, 0x0100);
             zoom.sY = constrain(zoom.sY, 0, 0x0100);
+
+            zoom.tX = (double)cx/(place_width - 240) * 240;
+            zoom.x = zoom.tX << 8;
+            zoom.tY = (double)cy/(place_height - 160) * 160;
+            zoom.y = zoom.tY << 8;
 
             for (int y = 0; y < 160; y++) {
                 dmaCopy(&place[(y + cy)*place_width + cx], (u16*)(VRAM + y*240*2), 240*2);
