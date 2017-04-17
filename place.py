@@ -9,8 +9,8 @@ placec = open('source/place.c', 'w')
 size = place.width*place.height
 
 placec.write(f'''#include <gba.h>
-u16 place_width = {place.width};
-u16 place_height = {place.height};
+const u16 place_width = {place.width};
+const u16 place_height = {place.height};
 
 const u16 place[{size}] = {{
     ''')
@@ -22,8 +22,8 @@ placec.write('\n};')
 placec.close()
 
 placeh = open('source/place.h', 'w')
-placeh.write(f'''u16 place_width;
-u16 place_height;
-u16 place[{size}];
+placeh.write(f'''const u16 place_width;
+const u16 place_height;
+const u16 place[{size}];
 ''')
 placeh.close()
